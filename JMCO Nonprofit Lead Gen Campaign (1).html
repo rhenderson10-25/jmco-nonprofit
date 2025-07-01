@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James Moore Nonprofit Lead Generation Campaign</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5d3e 100%);
+            color: white;
+            overflow: hidden;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: none;
+            padding: 40px 60px 120px 60px;
+            position: relative;
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5d3e 100%);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .wave-bg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #7cb342 0%, #2e7d32 100%);
+            clip-path: polygon(0 60%, 100% 20%, 100% 100%, 0% 100%);
+            z-index: 1;
+        }
+
+        .wave-bg-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #7cb342 0%, #2e7d32 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 40%, 0 80%);
+            z-index: 1;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 30px;
+            right: 60px;
+            z-index: 2;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .content {
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+            color: white;
+        }
+
+        h2 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        h3 {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #7cb342;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 50px;
+            color: #e8f5e8;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+        }
+
+        .three-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            height: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h4 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #2e7d32;
+        }
+
+        .card p, .card li {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .highlight-box {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            border-left: 4px solid #7cb342;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .highlight-box h3 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .highlight-box p {
+            color: #333;
+        }
+
+        .stat {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            color: #7cb342;
+        }
+
+        .stat-text {
+            font-size: 18px;
+            color: white;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #7cb342;
+            font-weight: bold;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: rgba(124, 179, 66, 0.8);
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            background: rgba(124, 179, 66, 1);
+            transform: scale(1.05);
+        }
+
+        .agenda-item {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #7cb342;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .agenda-item h3 {
+            color: #2e7d32;
+        }
+
+        .agenda-item p {
+            color: #555;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: #7cb342;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 30px;
+            }
+            
+            h1 { font-size: 32px; }
+            h2 { font-size: 28px; }
+            
+            .two-column,
+            .three-column {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Title -->
+    <div class="slide active">
+        <div class="wave-bg-top"></div>
+        <div class="content">
+            <h1>James Moore</h1>
+            <h1>Nonprofit Lead Generation Campaign</h1>
+            <div class="subtitle">Strategic Framework & Implementation Plan</div>
+        </div>
+        <div class="wave-bg"></div>
+        <div class="slide-number">1</div>
+    </div>
+
+    <!-- Slide 2: Agenda -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Campaign Framework Overview</h2>
+            <div class="agenda-item">
+                <h3>1. Lead Magnet Ideas</h3>
+                <p>High-value resources to engage prospective nonprofit clients</p>
+            </div>
+            <div class="agenda-item">
+                <h3>2. Campaign Strategy Framework</h3>
+                <p>Comprehensive approach to lead generation and nurturing</p>
+            </div>
+            <div class="agenda-item">
+                <h3>3. Traffic Generation</h3>
+                <p>Multiple channels to bring prospects to lead magnets</p>
+            </div>
+            <div class="agenda-item">
+                <h3>4. Conversion Optimization</h3>
+                <p>Strategies to convert website visitors into leads</p>
+            </div>
+            <div class="agenda-item">
+                <h3>5. Prospect Nurturing</h3>
+                <p>Automated sequences to build relationships and drive consultations</p>
+            </div>
+        </div>
+        <div class="slide-number">2</div>
+    </div>
+
+    <!-- Slide 3: Lead Magnet Ideas -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Lead Magnet Options</h2>
+            <div class="two-column">
+                <div class="card">
+                    <h3>Downloadable Resources</h3>
+                    <ul>
+                        <li>Nonprofit Compliance Checklist: 2025 Form 990 Guide</li>
+                        <li>Single Audit Survival Kit: Federal Grant Compliance Made Simple</li>
+                        <li>Sample Financial Policies for Nonprofits</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Interactive Assets</h3>
+                    <ul>
+                        <li>Nonprofit Operational Efficiency Assessment Tool</li>
+                        <li>Outsourced Accounting ROI Calculator for Nonprofits</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <strong>Goal:</strong> Provide immediate value while addressing key challenges like resource constraints and transition issues
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">3</div>
+    </div>
+
+    <!-- Slide 4: Campaign Strategy -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Campaign Strategy Framework</h2>
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div>
+                    <h3>Bring People to the Lead Magnet</h3>
+                    <p>Multi-channel approach including existing traffic, email lists, and targeted advertising</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div>
+                    <h3>Convince Them to Give Up Their Email</h3>
+                    <p>High-value resources that address specific nonprofit challenges and pain points</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div>
+                    <h3>Continue to Engage After Download</h3>
+                    <p>Automated nurture sequences with ongoing value and strategic touchpoints</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">4</div>
+    </div>
+
+    <!-- Slide 5: Traffic Generation -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Bringing People to Lead Magnets</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h3>Existing Website Traffic</h3>
+                    <div class="stat">
+                        <div class="stat-number">6,500</div>
+                        <div class="stat-text">visitors to nonprofit pages this year</div>
+                    </div>
+                    <ul>
+                        <li>Static CTAs for new resources</li>
+                        <li>Exit intent pop-ups</li>
+                        <li>Service page resource sections</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Email Lists</h3>
+                    <ul>
+                        <li>Reactivate existing newsletter subscribers</li>
+                        <li>Leverage previous webinar attendees</li>
+                        <li>Target organizations in transition</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <strong>77</strong> nonprofits actively hiring CFOs<br>
+                        <strong>33</strong> with high interest in outsourced accounting
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Paid Advertising</h3>
+                    <ul>
+                        <li>Google Ads for high-intent keywords</li>
+                        <li>LinkedIn campaigns to nonprofit leaders</li>
+                        <li>Retargeting website visitors</li>
+                        <li>Lookalike audiences from current clients</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">5</div>
+    </div>
+
+    <!-- Slide 6: Ad Campaign Details -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Advertising Campaign Strategy</h2>
+            <div class="three-column">
+                <div class="card">
+                    <h3>Search-Intent Campaigns</h3>
+                    <p>Google Ads targeting high-intent keywords like "nonprofit CPA near me," "Form 990 preparation," "nonprofit audit services Florida," and "grant compliance help."</p>
+                    <p>Include ad extensions highlighting 94% Net Promoter Score and expertise in single audits and UBIT compliance.</p>
+                </div>
+                <div class="card">
+                    <h3>Educational Content Campaigns</h3>
+                    <p>LinkedIn and Facebook campaigns to custom audiences of nonprofit leaders, promoting valuable resources rather than direct sales.</p>
+                    <p>Feature snippets from lead magnets while positioning James Moore as the go-to expert.</p>
+                </div>
+                <div class="card">
+                    <h3>Retargeting & Lookalike Campaigns</h3>
+                    <p>Retarget website visitors with specific resources based on pages viewed. Create lookalike audiences from current nonprofit clients.</p>
+                    <p>Target nonprofit executives, CFOs, and board members with case studies and success stories demonstrating ROI.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">6</div>
+    </div>
+
+    <!-- Slide 7: Website Conversion -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Converting Website Visitors</h2>
+            <div class="highlight-box">
+                <h3>Current Opportunity</h3>
+                <p>James Moore gets qualified nonprofit visitors but most leave without converting. Converting just 5-10% more visitors will significantly boost the sales pipeline.</p>
+            </div>
+            <div class="two-column">
+                <div class="card">
+                    <h3>Optimize Resource Placement</h3>
+                    <ul>
+                        <li>Prominent resource offers throughout nonprofit pages</li>
+                        <li>Inline content upgrades within blog articles</li>
+                        <li>Dedicated "Free Resources" section in navigation</li>
+                        <li>Resource callouts in service descriptions</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Strategic Pop-ups & Exit-Intent</h3>
+                    <ul>
+                        <li>Time-delayed pop-ups after 60 seconds</li>
+                        <li>Exit-intent offers before visitors leave</li>
+                        <li>Contextual offers based on page content</li>
+                        <li>Mobile-optimized experiences</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">7</div>
+    </div>
+
+    <!-- Slide 8: Social Proof Elements -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Social Proof & Urgency Elements</h2>
+            <div class="subtitle">(To be implemented in later phases)</div>
+            <div class="three-column">
+                <div class="card">
+                    <h3>Testimonials & Download Counts</h3>
+                    <p>"Join 500+ nonprofit leaders who've downloaded this guide"</p>
+                    <p>Add testimonials near resource offers to build credibility and trust</p>
+                </div>
+                <div class="card">
+                    <h3>Trust Signals</h3>
+                    <p>Include "As seen on..." or "Trusted by 250+ nonprofits" near conversion points</p>
+                    <p>Display credentials and certifications prominently</p>
+                </div>
+                <div class="card">
+                    <h3>Limited-Time Bonuses</h3>
+                    <p>"Download now and get exclusive access to our upcoming webinar on grant compliance"</p>
+                    <p>Create urgency with time-sensitive offers</p>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <strong>Testing & Optimization:</strong> Regular quarterly reviews to optimize performance, test new resources, and adapt to changing business priorities.
+            </div>
+        </div>
+        <div class="slide-number">8</div>
+    </div>
+
+    <!-- Slide 9: Prospect Nurturing -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Nurturing Prospects After Conversion</h2>
+            <div class="highlight-box">
+                <h3>The Challenge</h3>
+                <p>Most firms fail to follow up effectively, letting qualified leads go cold. Strategic nurturing converts more leads into consultations and builds stronger relationships.</p>
+            </div>
+            <div class="two-column">
+                <div class="card">
+                    <h3>Email Nurture Sequences</h3>
+                    <ul>
+                        <li>Automated welcome series with additional resources</li>
+                        <li>4-6 week drip campaigns</li>
+                        <li>Mix of soft and direct calls-to-action</li>
+                        <li>Educational content with consultation invites</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Content Continuation Strategy</h3>
+                    <ul>
+                        <li>Monthly "Kickin' It With Corinne" videos</li>
+                        <li>Regular newsletter inclusion</li>
+                        <li>Ongoing value delivery</li>
+                        <li>Relationship building over time</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">9</div>
+    </div>
+
+    <!-- Slide 10: Lead Scoring & Tracking -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Lead Scoring & Intent Tracking</h2>
+            <div class="two-column">
+                <div class="card">
+                    <h3>HubSpot Lead Scoring System</h3>
+                    <ul>
+                        <li>Score leads based on fit and engagement</li>
+                        <li>Route high-quality leads directly to BD/Partners</li>
+                        <li>Push lower-fit leads into nurture campaigns</li>
+                        <li>Automated qualification and routing</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Intent Tracking & Alerts</h3>
+                    <ul>
+                        <li>Track email clicks and opens</li>
+                        <li>Monitor blog post views</li>
+                        <li>Alert on service page visits</li>
+                        <li>Automate follow-up outreach</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="highlight-box">
+                <h3>Smart Qualification</h3>
+                <p>Automatically identify when prospects show buying signals through their digital behavior and route them appropriately for immediate follow-up.</p>
+            </div>
+        </div>
+        <div class="slide-number">10</div>
+    </div>
+
+    <!-- Slide 11: Next Steps -->
+    <div class="slide">
+        <div class="wave-bg"></div>
+        <div class="content">
+            <h2>Recommended Next Steps</h2>
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div>
+                    <h3>Select Primary Lead Magnet</h3>
+                    <p>Choose the most compelling resource that addresses your nonprofit clients' biggest pain points</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div>
+                    <h3>Implement Website Conversion Optimizations</h3>
+                    <p>Add strategic CTAs, pop-ups, and resource placement to capture existing traffic</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div>
+                    <h3>Launch Email Nurture Sequences</h3>
+                    <p>Create automated campaigns for new leads and reactivate existing lists</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div>
+                    <h3>Scale with Paid Advertising</h3>
+                    <p>Once conversion processes are optimized, add targeted ad spend for acceleration</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-number">11</div>
+    </div>
+
+    <!-- Slide 12: Contact -->
+    <div class="slide">
+        <div class="wave-bg-top"></div>
+        <div class="content" style="text-align: center;">
+            <h1>Questions & Discussion</h1>
+            <div class="subtitle">Let's discuss implementation priorities and timeline</div>
+            <div style="margin-top: 40px;">
+                <p style="font-size: 20px;">Ready to transform your nonprofit lead generation?</p>
+            </div>
+        </div>
+        <div class="wave-bg"></div>
+        <div class="slide-number">12</div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-btn" onclick="nextSlide()">Next →</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+
+        // Touch/swipe support for mobile
+        let startX = 0;
+        document.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', function(e) {
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide(); // Swipe left - next slide
+                } else {
+                    previousSlide(); // Swipe right - previous slide
+                }
+            }
+        });
+    </script>
+</body>
+</html>
